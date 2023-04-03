@@ -6,12 +6,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>sia</groupId>
-  <artifactId>taco-cloud-sd-jpa</artifactId>
+  <artifactId>cs-5324-info-timeline</artifactId>
   <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>taco-cloud</name>
-  <description>Taco Cloud Example</description>
+  <name>info-timeline</name>
+  <description>Post Timeline for CS Department</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
