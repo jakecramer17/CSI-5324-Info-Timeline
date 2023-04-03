@@ -14,7 +14,6 @@ import java.util.Date;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class User {
 
 	@Id

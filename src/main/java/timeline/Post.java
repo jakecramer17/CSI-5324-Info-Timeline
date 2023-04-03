@@ -33,6 +33,12 @@ public class Post implements Serializable {
 	private String desciption;
 	private Date creationDate = new Date();
 
+	private Status status = Status.SUBMITTED;
+
+	private enum Status{
+		ACCEPTED, SUBMITTED, REJECTED, DELETED
+	}
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Tag> tags = new ArrayList<>();
 
@@ -98,6 +104,18 @@ public class Post implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public void updateStatus(String status){
+		if(status.equalsIgnoreCase("accepted")){
+			this.status = Status.ACCEPTED;
+		}
+		else if(status.equalsIgnoreCase("rejected")){
+			this.status = Status.REJECTED;
+		}
+		else if(status.equalsIgnoreCase("deleted")) {
+			this.status = Status.DELETED;
+		}
 	}
 
 }
