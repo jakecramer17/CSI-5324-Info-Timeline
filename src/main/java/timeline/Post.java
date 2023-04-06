@@ -35,7 +35,7 @@ public class Post implements Serializable {
 
 	private Status status = Status.SUBMITTED;
 
-	private enum Status{
+	public enum Status{
 		ACCEPTED, SUBMITTED, REJECTED, DELETED
 	}
 
@@ -116,6 +116,22 @@ public class Post implements Serializable {
 		else if(status.equalsIgnoreCase("deleted")) {
 			this.status = Status.DELETED;
 		}
+	}
+
+	public static Status stringToStatus(String status){
+		if(status.equalsIgnoreCase("accepted")){
+			return Status.ACCEPTED;
+		}
+		else if(status.equalsIgnoreCase("rejected")){
+			return Status.REJECTED;
+		}
+		else if(status.equalsIgnoreCase("deleted")) {
+			return Status.DELETED;
+		}
+		else if(status.equalsIgnoreCase("submitted")){
+			return Status.SUBMITTED;
+		}
+		return Status.SUBMITTED;
 	}
 
 }

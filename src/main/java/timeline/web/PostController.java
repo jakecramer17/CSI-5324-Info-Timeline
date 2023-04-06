@@ -18,7 +18,6 @@ import timeline.data.PostRepository;
 
 @RestController
 @RequestMapping("/api/post")
-@SessionAttributes("post")
 public class PostController {
 
   private final PostRepository postRepo;
@@ -47,19 +46,16 @@ public class PostController {
 
   @GetMapping
   public String showDesignForm() {
-    return "macbook_store_design";
+    return "design";
   }
 
   @PostMapping("/createPost")
-  public String processPost(
-      @Valid Tag tag, Errors errors,
-      @RequestBody Post post) {
+  public String processPost(@RequestBody Post post, Errors errors) {
 
     if (errors.hasErrors()) {
-      return "macbook_store_design";
+      return "design";
     }
-
-    post.addTag(tag);
+    post.setStatus(Post.Status.SUBMITTED);
     postRepo.save(post);
 
     return "redirect:/";
@@ -75,7 +71,7 @@ public class PostController {
     return new ResponseEntity<>(postRepo.findAll(),HttpStatus.OK);
   }
 
-  @PostMapping("/delete/{id}")
+  @PostMapping("/remove/{id}")
   public ResponseEntity deletePost(@PathVariable(name="id") long id){
     postRepo.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -92,9 +88,17 @@ public class PostController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  @PutMapping("/update/{id}/{status}")
+  public ResponseEntity updatePostStatus(@PathVariable(name="id") long id,
+                                         @PathVariable String status){
+    Post oldPost = postRepo.getPostById(id);
+    oldPost.setStatus(Post.stringToStatus(status));
+    postRepo.save(oldPost);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
   @GetMapping("/posts/{status}")
   public ResponseEntity<List<Post>> findPostsByStatus(@PathVariable(name="status") String status){
-
-    return new ResponseEntity<>(postRepo.findAll(), HttpStatus.OK);
+    return new ResponseEntity<>(postRepo.findByStatus(Post.stringToStatus(status)), HttpStatus.OK);
   }
 }
