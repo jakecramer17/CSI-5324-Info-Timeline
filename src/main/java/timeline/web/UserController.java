@@ -31,32 +31,26 @@ public class UserController {
     this.userRepo = userRepo;
   }
 
-  @ModelAttribute
-  public void addUsersToModel(Model model) {
-    List<User> users = new ArrayList<>();
-    userRepo.findAll().forEach(i -> users.add(i));
+  @PostMapping("/create")
+  public ResponseEntity<User> createUser(@RequestBody User user, Errors errors) {
+	userRepo.save(user);
+	return new ResponseEntity<>(user, HttpStatus.CREATED);
   }
 
-  @GetMapping("/createAccount")
-  public String userForm() {
-    return "macbook_orderForm";
+  @GetMapping
+  public ResponseEntity<List<User>> getAllUsers(){
+    return new ResponseEntity<>(userRepo.findAll(), HttpStatus.OK);
   }
 
-  @PostMapping
-  public String processUser(@Valid User user, Errors errors, SessionStatus sessionStatus) {
-    if (errors.hasErrors()) {
-      return "macbook_orderForm";
-    }
-
-    userRepo.save(user);
-    sessionStatus.setComplete();
-
-    return "redirect:/";
-  }
-
-  @GetMapping("/user/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable(name="id") String id){
+  @GetMapping("/{id}")
+  public ResponseEntity<User> getUserById(@PathVariable(name="id") long id){
     return new ResponseEntity<>(userRepo.findById(id).get(), HttpStatus.OK);
+  }
+  
+  @DeleteMapping("/remove/{id}")
+  public ResponseEntity deleteUser(@PathVariable(name="id") long id){
+    userRepo.deleteById(id);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

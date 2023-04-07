@@ -17,7 +17,7 @@ import timeline.Tag;
 import timeline.data.PostRepository;
 
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("/api/posts")
 public class PostController {
 
   private final PostRepository postRepo;
@@ -43,22 +43,18 @@ public class PostController {
   public Tag tag() {
     return new Tag();
   }
-
+  
   @GetMapping
-  public String showDesignForm() {
-    return "design";
+  public ResponseEntity<List<Post>> getAllPosts(){
+    return new ResponseEntity<>(postRepo.findAll(),HttpStatus.OK);
   }
 
-  @PostMapping("/createPost")
-  public String processPost(@RequestBody Post post, Errors errors) {
-
-    if (errors.hasErrors()) {
-      return "design";
-    }
+  @PostMapping("/create")
+  public ResponseEntity<Post> processPost(@RequestBody Post post, Errors errors) {
     post.setStatus(Post.Status.SUBMITTED);
     postRepo.save(post);
 
-    return "redirect:/";
+    return new ResponseEntity<>(post, HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
@@ -66,12 +62,7 @@ public class PostController {
     return new ResponseEntity<>(postRepo.getPostById(id), HttpStatus.OK);
   }
 
-  @GetMapping("/posts")
-  public ResponseEntity<List<Post>> getAllPosts(){
-    return new ResponseEntity<>(postRepo.findAll(),HttpStatus.OK);
-  }
-
-  @PostMapping("/remove/{id}")
+  @DeleteMapping("/remove/{id}")
   public ResponseEntity deletePost(@PathVariable(name="id") long id){
     postRepo.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -97,7 +88,7 @@ public class PostController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping("/posts/{status}")
+  @GetMapping("/status/{status}")
   public ResponseEntity<List<Post>> findPostsByStatus(@PathVariable(name="status") String status){
     return new ResponseEntity<>(postRepo.findByStatus(Post.stringToStatus(status)), HttpStatus.OK);
   }

@@ -108,13 +108,13 @@ public class Post implements Serializable {
 
 	public void updateStatus(String status){
 		if(status.equalsIgnoreCase("accepted")){
-			this.status = Status.ACCEPTED;
+			this.setStatus(Status.ACCEPTED);
 		}
 		else if(status.equalsIgnoreCase("rejected")){
-			this.status = Status.REJECTED;
+			this.setStatus(Status.REJECTED);
 		}
 		else if(status.equalsIgnoreCase("deleted")) {
-			this.status = Status.DELETED;
+			this.setStatus(Status.DELETED);
 		}
 	}
 
@@ -132,6 +132,14 @@ public class Post implements Serializable {
 			return Status.SUBMITTED;
 		}
 		return Status.SUBMITTED;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 }
