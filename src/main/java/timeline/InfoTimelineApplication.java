@@ -16,7 +16,7 @@ public class InfoTimelineApplication {
 	}
 
 	@Bean
-	public CommandLineRunner dataLoader(PostRepository repo) {
+	public CommandLineRunner dataLoader(PostRepository repo, UserRepository userRepo) {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
@@ -27,6 +27,12 @@ public class InfoTimelineApplication {
 				repo.save(new Post());
 				repo.save(new Post());
 				repo.save(new Post());
+				
+				userRepo.save(new User());
+				userRepo.save(new User());
+				userRepo.save(new User());
+				userRepo.save(new User());
+				userRepo.save(new User());
 			}
 		};
 	}
