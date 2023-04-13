@@ -10,16 +10,16 @@ import timeline.data.UserRepository;
 @Component
 public class UserByIdConverter implements Converter<String, User> {
 
-  private UserRepository ingredientRepo;
+  private UserRepository userRepo;
 
   @Autowired
-  public UserByIdConverter(UserRepository ingredientRepo) {
-    this.ingredientRepo = ingredientRepo;
+  public UserByIdConverter(UserRepository userRepo) {
+    this.userRepo = userRepo;
   }
 
   @Override
   public User convert(String id) {
-    return ingredientRepo.findById(id).orElse(null);
+    return userRepo.findById(Long.valueOf(id)).orElse(null);
   }
 
 }
