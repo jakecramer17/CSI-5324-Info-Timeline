@@ -1,4 +1,10 @@
 spring:
   datasource:
     generate-unique-name: false
-    name: tacocloud
+    name: info-timeline
+server:
+  error:
+    include-stacktrace: never
+jwt:
+  secret: 9146aa94cab1e191fe5b86dc717bd8af1d331e0135fe8047f50446356bad4567f92e308bc091f4b48ed3e2ef92da09dfa62d1dc1becb9a86c6d5e52c9dd2ff3b
+
