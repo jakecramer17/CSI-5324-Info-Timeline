@@ -88,4 +88,19 @@ public class PostController {
   public ResponseEntity<List<Post>> findPostsByStatus(@PathVariable(name="status") String status){
     return new ResponseEntity<>(postRepo.findByStatus(Post.stringToStatus(status)), HttpStatus.OK);
   }
+
+  @GetMapping("/tag/{tag}")
+  public ResponseEntity<List<Post>> findPostsByTag(@PathVariable(name="tag") String tag){
+    List<Post> allPosts = postRepo.findAll();
+    List<Post> taggedPosts = new ArrayList<>();
+    for(Post post : allPosts){
+      for(Tag postTag : post.getTags()){
+        if(postTag.getTag().equalsIgnoreCase(tag)){
+          taggedPosts.add(post);
+          break;
+        }
+      }
+    }
+    return new ResponseEntity<>(taggedPosts,HttpStatus.OK);
+  }
 }
