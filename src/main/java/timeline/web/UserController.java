@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import timeline.Post;
 import timeline.User;
 import timeline.data.PostRepository;
 import timeline.data.UserRepository;
@@ -52,8 +53,9 @@ public class UserController {
   }
 
   @GetMapping("/{id}/posts")
-  public ResponseEntity<List<Post>> findPostsByAuthor(@PathVariable(name="id") long userId){
-    return new ResponseEntity<>(postRepo.findByAuthor(userRepo.findById(userId).get()),HttpStatus.OK);
+  @ResponseStatus(HttpStatus.OK)
+  public List<Post> findPostsByAuthor(@PathVariable(name="id") long userId){
+    return postRepo.findByAuthor(userRepo.findById(userId).get());
   }
 
 }
