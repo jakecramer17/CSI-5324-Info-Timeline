@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import timeline.Post;
 import timeline.Tag;
+import timeline.User;
 import timeline.data.PostRepository;
 
 @RestController

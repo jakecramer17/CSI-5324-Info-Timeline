@@ -23,12 +23,15 @@ import timeline.data.UserRepository;
 @SessionAttributes("user")
 public class UserController {
 
-  private UserRepository userRepo;
+  private final UserRepository userRepo;
+  private final PostRepository postRepo;
 
   @Autowired
   public UserController(
-        UserRepository userRepo) {
+        UserRepository userRepo,
+        PostRepository postRepo) {
     this.userRepo = userRepo;
+    this.postRepo = postRepo;
   }
 
   @PostMapping("/create")
@@ -51,6 +54,11 @@ public class UserController {
   public ResponseEntity deleteUser(@PathVariable(name="id") long id){
     userRepo.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("/{id}/posts")
+  public ResponseEntity<List<Post>> findPostsByAuthor(@PathVariable(name="id") long userId){
+    return new ResponseEntity<>(postRepo.findByAuthor(userRepo.findById(userId).get()),HttpStatus.OK);
   }
 
 }

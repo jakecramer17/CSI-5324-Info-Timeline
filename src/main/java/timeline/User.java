@@ -1,15 +1,17 @@
 package timeline;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Data
 @Entity
@@ -24,6 +26,8 @@ public class User {
 	private String email;
 	private String firstName;
 	private String lastName;
+	@OneToMany(cascade=ALL, mappedBy="author")
+	private List<Post> posts = new ArrayList<>();
 
 	public User(String password, String email, String firstName, String lastName) {
 		super();
@@ -79,6 +83,14 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public List<Post> getPosts(){
+		return posts;
+	}
+
+	public void addPost(Post post){
+		this.posts.add(post);
 	}
 
 }

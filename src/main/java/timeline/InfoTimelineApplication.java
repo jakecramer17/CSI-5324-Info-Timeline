@@ -21,15 +21,7 @@ public class InfoTimelineApplication {
 			@Override
 			public void run(String... args) throws Exception {
 				// We can front-load the repo with dummy posts
-				repo.save(new Post());
-				repo.save(new Post());
-				repo.save(new Post());
-				repo.save(new Post());
-				repo.save(new Post());
-				repo.save(new Post());
-				
-				userRepo.save(new User());
-				userRepo.save(new User());
+
 				userRepo.save(new User());
 				userRepo.save(new User());
 				userRepo.save(new User());

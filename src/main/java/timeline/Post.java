@@ -4,13 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 @Data
@@ -27,6 +25,12 @@ public class Post implements Serializable {
 	private String desciption;
 	private Date creationDate = new Date();
 
+	@ManyToOne
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+	property = "id")
+	@JsonIdentityReference(alwaysAsId = true)
+	private User author;
+
 	private Status status = Status.SUBMITTED;
 
 	public enum Status{
@@ -34,14 +38,15 @@ public class Post implements Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Tag> tags = new ArrayList<>();
+	private List<Tag> tags;
 
-	public Post(String title, String desciption, Date creationDate, List<Tag> tags) {
+	public Post(String title, String desciption, Date creationDate, List<Tag> tags, User author) {
 		super();
 		this.title = title;
 		this.desciption = desciption;
 		this.creationDate = creationDate;
 		this.tags = tags;
+		this.author = author;
 	}
 	
 	public Post() {
@@ -50,6 +55,7 @@ public class Post implements Serializable {
 		this.desciption = "This is a desciption!";
 		this.creationDate = new Date();
 		this.tags = new ArrayList<>();
+		this.author = new User();
 	}
 
 	public void addTag(Tag tag) {
@@ -134,6 +140,14 @@ public class Post implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public User getAuthor(){
+		return author;
+	}
+
+	public void setAuthor(User user){
+		this.author = user;
 	}
 
 }
